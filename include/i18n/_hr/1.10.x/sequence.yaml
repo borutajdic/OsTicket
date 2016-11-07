@@ -1,0 +1,15 @@
+---
+- 
+  id: 1
+  name: Općenite kartice
+  next: 1
+  padding: "1"
+  increment: 1
+  flags: 1
+- 
+  id: 2
+  name: Tasks Sequence
+  next: 1
+  padding: "1"
+  increment: 1
+  flags: 1

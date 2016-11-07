@@ -1,0 +1,64 @@
+Datoteke:
+
+	bootstrap.php
+	line 129:
+	
+	include/client/view.inc.php:
+	line 4 - 12:
+	line 203 - 208:
+	
+	include/client/profile.inc.php
+	line 123 - 127
+	
+	include/client/open.inc.php
+	line 66 - 82:
+	
+	include/client/class.config.php
+	line 215 - 226:
+	
+	include/class.nav.php	
+	line 341 vrstica je zakomentirana da se ne vidi Ustvari nov zahtevek
+	
+	index.php
+	line 38:
+	
+	include/staff/tickets-view.inc.php
+	line 385 - 433:
+	line 518 - 522:
+	line 940 - 988:
+	
+	scp/tickets.php
+	line 200 - 236:
+	line 500 - 514:
+	line 544 - 548:
+	
+	include/class.ticket.php
+	line 58 - 61
+	line 2195-2200
+	
+	
+	
+	
+	include/ajax.reports.php:
+	line 77 - 96:
+	line 102 - 312:	
+	
+	
+	
+	
+	
+Datoteke spisane od začetka:
+	include/staff/ticket-aktivnost.php-copy paste od ticket-view.inc.php z manjšimi spremembami P.S:Hardoced je noter id od statusa Potrjeno s strani stranke, ki je trenutno 7 v vrstici 185
+	include/staff/ticket-potrjeni.php
+	scp/calendar.php
+	scp/calendar.modal.php
+	scp/css/calendar.css
+	scp/org.zahteve.php
+	scp/org.get.php
+	
+Dodane v mysql bazo:
+ALTER TABLE ost_staff ADD isAtWork int(1) not null default '0';
+CREATE TABLE ost_vrsta_dela(id int(11) NOT NULL, koda varchar(5) NULL, opis varchar(50) NOT NULL, PRIMARY KEY(id));
+CREATE TABLE ost_ticket_time(ticket_id int(11) NOT NULL, staff_id int(11) NOT NULL, time_spent float(4,2) NOT NULL, vrsta_dela_id int(11) NOT NULL, opis char(64) NULL, id int(11) not null auto_incrament, time float(4,2) not null default '0.00', primary key(id));
+CREATE TABLE ost_aktivnost(id int(11) NOT NULL, name char(64) NOT NULL, PRIMARY KEY(id));
+CREATE TABLE ost_agent_aktivnost(id int(11) NOT NULL AUTO_INCREMENT,staff_id int(11) NOT NULL,aktivnost_id int(11) NOT NULL,opis char(64) NULL, created date NOT NULL, aktivnost_od date NOT NULL, aktivnost_do date NOT NULL, cas_od time NOT NULL, cas_do time NOT NULL, PRIMARY KEY(id));

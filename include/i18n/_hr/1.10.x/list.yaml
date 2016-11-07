@@ -1,0 +1,34 @@
+---
+- 
+  type: ticket-status
+  name: Status kartice
+  name_plural: Statusi kartica
+  sort_mode: SortCol
+  masks: 13
+  notes: Statusi kartica
+  properties:
+    title: Svojstva statusa kartice
+    instructions: Svojstva koja se mogu postaviti na statusu kartice.
+    flags: 1
+    fields:
+      - 
+        type: state
+        name: state
+        label: Stanje
+        sort: 1
+        flags: 487665
+        configuration:
+          prompt: Stanje kartice
+      - 
+        type: memo
+        name: description
+        label: Opis
+        sort: 3
+        flags: 471073
+        configuration:
+          rows: 2
+          cols: 40
+          html: false
+          length: 100
+  configuration:
+    handler: TicketStatusList

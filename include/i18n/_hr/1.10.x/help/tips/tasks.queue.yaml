@@ -1,0 +1,7 @@
+---
+advanced:
+  title: Napredno
+  content: 'Narrow down your search parameters. Once you have selected your advanced search criteria and run the search, you can <span class="doc-desc-title">Export </span> the data at the bottom of the page.'
+export:
+  title: Izvoz
+  content: Izvezite podatke koje trenutno pregledavate u CSV datoteku. CSV mogu biti otvorene pomoću tabličnih programa (npr, Microsoft Excel, Apple Pages, OpenOffice, itd.).

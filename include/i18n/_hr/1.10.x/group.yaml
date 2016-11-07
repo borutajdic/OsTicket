@@ -1,0 +1,31 @@
+---
+- 
+  id: 1
+  role_id: 1
+  flags: 1
+  name: Krotitelji lavova
+  notes: SIstemski vladari. Ovi likovi (inicijalno) imaju apsolutnu kontrolu nad svim odjelima kojima mogu pristupiti.
+  depts:
+    - 1
+    - 2
+    - 3
+- 
+  id: 2
+  role_id: 2
+  flags: 1
+  name: Setači slonova
+  notes: Stanovnici kule od slonovače
+  depts:
+    - 1
+    - 2
+    - 3
+- 
+  id: 3
+  role_id: 2
+  flags: 1
+  name: Treneri buha
+  notes: Osnovni djelatnici
+  depts:
+    - 1
+    - 2
+    - 3

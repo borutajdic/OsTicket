@@ -1,0 +1,16 @@
+---
+client_name_format:
+  title: User Name Formatting
+  content: Choose a format for Users names throughout the system. Email templates will use it for names if no other format is specified.
+client_session_timeout:
+  title: Dopušteno trajanje neaktivnosti korisnika
+  content: 'Odredite maksimalno dopušteno vrijeme (u minutama) nakon čijeg isteka korisnik će se morati ponovno prijaviti. <br><br> Ukoliko želite onemogučiti <span class="doc-desc-title">Dopušteno trajanje neaktivnosti djelatnika</span>, unesite 0.'
+registration_method:
+  title: Opcije registracije
+  content: '<span class="doc-desc-title">Metoda registracije</span> i <span class="doc-desc-title">Potrebna registracija</span> se koriste zajedno radi konfiguriranja kako se korisnici registriraju i kako koriste tehničku podršku. Tablica u nastavku je sažetak kako te dvije postavke tumači sustav. <table border="1" cellpadding="2px" cellspacing="0" style="margin-top:7px" ><tbody style="vertical-align:top;"> <tr><th>Potrebna registracija</th> <th>Metoda registracije</th> <th>Rezultat</th></tr> <tr><td>Ne</td><td>Javno</td> <td>Registracija je preporučena, ali nije neophodna za otvaranje nove kartice.</td></tr> <tr><td>Da</td><td>Javno</td> <td>Registracija i prijava potrebni su za otvaranje nove kartice</td></tr> <tr><td>Ne</td><td>Privatno</td> <td>Bilo tko može otvoriti novu karticu, ali samo djelatnici mogu registrirati račune</td></tr> <tr><td>Da</td><td>Privatno</td> <td>Korisnik pristupa samo uz pozivnicu</td></tr> <tr><td>Ne</td><td>Onemogučeno</td> <td>Nitko se ne može prijavit za račun, ali svatko može otvoriti novu karticu . <em>Ovako je osTicket funkcionirao prije verzije 1.9</em></td></tr> <tr><td>Da</td><td>Onemogućeno</td> <td>Onemogućiti nove kartice putem web portala</td></tr> </tbody></table>'
+client_verify_email:
+  title: Zahtjevaj email verifikaciju
+  content: 'Onemogućite ovu opciju kako biste omogućili korisnicima izravan pristup putem "Provjeri status kartice" na stranici prijave. Ukoliko je omogućeno, (što je osnovna postavka),korisnici će primiti email sa linkom putem kojeg će moći provjeriti status kartice. <br><br> Onemogućavanje email verifikacije može omogućiti drugim ljudima (npr. suradnici na kartici) da oponašaju vlasnika kartice.'
+allow_auth_tokens:
+  title: Enable Authentication Tokens
+  content: Enable this option to allow use of authentication tokens to auto-login users on ticket link click.

@@ -1,0 +1,7 @@
+---
+org_sharing:
+  title: Ticket Sharing
+  content: '<p>Dijeljenje organizacijskih kartica članovima omogućava pristup karticama ostalih članova u organizaciji. </p><p class="info-banner"><i class="icon-info-sign"></i> Sudionici kartica uvijek imaju pristup do tih kartica. </p>'
+email_domain:
+  title: Email Domain
+  content: 'Korisnici mogu automatski biti dodani na ovu organizaciju na temelju njihove email domene(a). Koristite polje ispod da biste unijeli jednu ili više domena odvojenih zarezom. Na primjer, unesite <code>mojatvrtka.com</code> za korisnike sa email adresama koje završavaju na @mojatvrtka.com'

@@ -1,0 +1,19 @@
+div.day-number	 { 
+	background:#999; 
+	position:absolute; 
+	z-index:2; 
+	top:-5px; 
+	right:-25px; 
+	padding:5px; 
+	color:#fff; 
+	font-weight:bold; 
+	width:20px; 
+	text-align:center; 
+}
+td.calendar-day, td.calendar-day-np { 
+	width:120px;
+	padding:5px 5px 5px 5px; 
+	border-bottom:1px solid #999; 
+	border-right:1px solid #999; 
+}
+

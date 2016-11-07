@@ -1,0 +1,68 @@
+---
+helpdesk_status:
+  title: Status centra tehničke podrške
+  content: 'Ukoliko se status promjeni u <span class="doc-desc-opt">Offline</span>, korisničko sučelje će biti onemogućeno. Ovo neće imati utjecaja na interakciju djelatnika sa djelatničko upravljačkom pločom.'
+helpdesk_url:
+  title: URL centra za tehničku podršku
+  content: Ovaj URL je osnova Vaše osTicket instalacije. Ona se koristi u email komunikaciji kako bi se krajnji korisnik usmjerio na centar tehničke podrške.
+helpdesk_name_title:
+  title: Naziv centra tehničke podrške
+  content: Ovo je naziv koji će biti prikazan u tabu preglednika. Ukoliko je vaš centar tehničke podrške označen, ovo je ime koje će se prikazati pod nazivom stranice.
+default_department:
+  title: Osnovno odjel
+  content: 'Odaberite osnovni <span class="doc-desc-title">odjel</span> za kartice koje nisu automatski dodjeljene odjelu. <br/><br/> Kartice mogu biti dodjeljene po temi podrške, ulaznom emailu i postavkama filtera kartica.'
+default_page_size:
+  title: Osnovna veličina stranice
+  content: 'Odaberite broj prikazanih stavaka po stranici u redu čekanja u kontrolnoj ploči djelatnika. Svaki djelatnik može zasebno prilagoditi broj prikazanih stavaka za sebe pod<span class="doc-desc-title">Moje postavke</span>.'
+default_log_level:
+  title: Osnovna razina bilješki
+  content: 'Odredite minimalnu količinu podataka koja će biti spremljena u  <span class="doc-desc-title">sistemski dnevnik</span>. <span class="doc-desc-opt">Debug</span> predstavlja najmanju razinu ozbiljnosti, dok <span class="doc-desc-opt">Greška</span> predstavlja najveću razinu ozbiljnosti. Npr., ukoliko želite želite vidjeti sve bilješke <span class="doc-desc-title">sistemskom dnevniku</span>, odaberite <span class="doc-desc-opt">Debug</span>.'
+purge_logs:
+  title: Pročistite dnevnike
+  content: 'Odredite koliko dugo želite zadržati <span class="doc-desc-title">sistemske dnevnike</span> prije nego budu obrisani.'
+enable_richtext:
+  title: Enable Rich Text
+  content: Ukoliko je omogućeno, ovo će dopustiti korištenje obogaćenog teksta između klijenata i djelatnika.
+enable_avatars:
+  title: Enable Avatars on Thread View
+  content: |-
+    Enable this to show <span class="doc-desc-title">Avatars</span> on thread correspondence. <br><br> The <span class="doc-desc-title">Avatar Source</span> can be set in Agents' and Users' settings pages.
+  links:
+    - 
+      title: Agents Settings
+      href: /scp/settings.php?t=agents
+    - 
+      title: Users Settings
+      href: /scp/settings.php?t=users
+collision_avoidance:
+  title: Izbjegavanje preklapanja djelatnika
+  content: 'Enter the maximum length of time an Agent is allowed to hold a lock on a ticket or task without any activity. <br><br> Enter <span class="doc-desc-opt">0</span> to disable the lockout feature.'
+date_time_options:
+  title: 'Datum &amp; postavke vremena'
+  content: 'The following settings define the default settings for Date &amp; Time settings for the help desk. You can choose to use the locale defaults for the selected locale or use customize the formats to meet your unique requirements. Refer to the ICU format strings as a reference for customization.  The dates shown below simply illustrate the result of their corresponding values.'
+  links:
+    - 
+      title: See the ICU Date Formatting Table
+      href: http://userguide.icu-project.org/formatparse/datetime
+languages:
+  title: System Languages
+  content: Choose a system primary language and optionally secondary languages to make your interface feel localized for your agents and end-users.
+primary_language:
+  title: System Primary Language
+  content: 'Content of this language is displayed to agents and end-users if their respective language preference is not currently available. This includes the content of the interface, as well as, custom content such as thank-you pages and email messages. <br/><br/> This is the language in which the untranslated versions of your content should be written.'
+secondary_language:
+  title: Secondary Languages
+  content: Select language preference options for your agents and end-users. The interface will be available in these languages, and custom content, such as thank-you pages and help topic names, will be translatable to these languages.
+attachments:
+  title: Attachment Settings and Storage
+  content: Configure how attachments are stored.
+default_storage_bk:
+  title: File Storage Backend
+  content: 'Choose how attachments are stored. <br<br> Additional storage backends can be added by installing storage plugins'
+max_file_size:
+  title: Maksimalna veličina datoteke
+  content: "Choose a maximum file size for attachments uploaded by agents. This includes canned attachments, knowledge base articles, and attachments to ticket and task replies. The upper limit is controlled by PHP's <code>upload_max_filesize</code> setting."
+  links:
+    - 
+      title: PHP ini settings
+      href: 'http://php.net/manual/en/ini.core.php#ini.upload-max-filesize'

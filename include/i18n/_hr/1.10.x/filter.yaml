@@ -1,0 +1,19 @@
+---
+- 
+  isactive: 1
+  execorder: 99
+  match_all_rules: 1
+  email_id: 1
+  target: Email
+  name: SYSTEM BAN LIST
+  notes: Interna lista za blokiranje emailova. Nemojte brisati
+  rules:
+    - 
+      isactive: 1
+      what: email
+      how: equal
+      val: test@example.com
+  actions:
+    - 
+      sort: 1
+      type: reject

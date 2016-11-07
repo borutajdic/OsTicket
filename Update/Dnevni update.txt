@@ -1,0 +1,98 @@
+--Pobriše vse podatke, v povezavi z zahtevami
+--DELETE FROM OPENQUERY(OSTICKET_P,'Select * from ost_ticket')
+--DELETE FROM OPENQUERY(OSTICKET_P,'Select * from ost_ticket_thread')
+--DELETE FROM OPENQUERY(OSTICKET_P,'Select * from ost_ticket__cdata')
+--DELETE FROM OPENQUERY(OSTICKET_P,'Select * from ost_form_entry where object_type = ''T''')
+--DELETE FROM OPENQUERY(OSTICKET_P,'Select * from ost_form_entry_values where field_id = 20')
+--DELETE FROM OPENQUERY(OSTICKET_P,'Select * from ost_user')
+--DELETE FROM OPENQUERY(OSTICKET_P,'Select * from ost_user_email')
+
+--Naloži osnovne podatke o zahtevku (dela)
+INSERT INTO OPENQUERY(OSTICKET_P,'Select ticket_id,number,user_id,user_email_id,status_id,dept_id,sla_id,topic_id,staff_id,team_id,email_id,flags,ip_address,source,isoverdue,isanswered,created,updated from ost_ticket')
+SELECT z.ID_Zahteva,z.ID_Zahteva,z.ID_OsebaNarocnik,0,
+(CASE WHEN z.Status='ZZ' THEN 2
+	WHEN z.Status='IZ' OR z.Status='OZ' THEN 9
+	WHEN z.Status='OK' OR z.Status='PP' THEN 7
+	WHEN z.Status= 'PO' OR z.Status='PX' THEN 8
+	WHEN z.Status='TN' THEN 6
+	WHEN z.Status='PZ' THEN 1
+	ELSE 3
+	END),
+12,1,23,z.ID_OsebaIzvajalec,0,0,0,'0.0.0.0','API',0,
+(CASE WHEN Status='PO' OR Status='ZZ' OR Status='PX' THEN 1
+	ELSE 0
+	end),
+DatumZahteve,DatumZahteve 
+FROM dbo.RFC_Zahteve z
+LEFT JOIN OPENQUERY(OSTICKET_P,'SELECT * FROM ost_ticket') ot ON ot.ticket_id=z.ID_Zahteva
+ WHERE ID_OsebaNarocnik IS NOT NULL AND ot.ticket_id IS NULL
+
+--Naloži kratek opis zahtevka(subject) (dela)
+INSERT INTO OPENQUERY(OSTICKET_P,'Select form_id,object_id,object_type,sort,created,updated from ost_form_entry')
+SELECT 2,z.ID_Zahteva,'T',0,z.DatumZahteve,z.DatumZahteve 
+FROM dbo.RFC_Zahteve z 
+LEFT JOIN OPENQUERY(OSTICKET_P,'Select * from ost_form_entry') fe ON fe.object_id = z.ID_Zahteva
+WHERE fe.object_id IS NULL
+
+INSERT INTO OPENQUERY(OSTICKET_P,'Select entry_id,field_id,value,value_id from ost_form_entry_values')
+SELECT one.id,20,z.Opis,NULL 
+FROM dbo.RFC_Zahteve z
+LEFT JOIN (SELECT * FROM OPENQUERY(OSTICKET_P,'Select id, object_id from ost_form_entry where object_type = ''T'' order by id')) AS one ON z.ID_Zahteva = one.object_id
+LEFT JOIN OPENQUERY(OSTICKET_P,'Select id, object_id from ost_form_entry where object_type = ''T'' order by id') efv ON efv.object_id = z.ID_Zahteva
+WHERE efv.object_id is null
+
+--Naloži subject tako da ga je možno klikniti(dela)
+INSERT INTO OPENQUERY(OSTICKET_P,'Select ticket_id,subject from ost_ticket__cdata')
+SELECT z.ID_Zahteva,z.Opis 
+FROM dbo.RFC_Zahteve z
+LEFT JOIN OPENQUERY(OSTICKET_P,'SELECT * FROM ost_ticket__cdata') tc ON tc.ticket_id = z.ID_Zahteva
+WHERE tc.ticket_id IS NULL
+
+--Naloži podroben opis zahteve(dela)
+INSERT INTO OPENQUERY(OSTICKET_P,'Select pid,ticket_id,staff_id,user_id,thread_type,poster,source,title,body,format,ip_address,created,updated from ost_ticket_thread')
+SELECT 0,z.ID_Zahteva,z.ID_OsebaIzvajalec,z.ID_OsebaNarocnik,'M',o.Ime,'API',NULL,(CASE WHEN z.OpisZahteveNarocnik IS NULL THEN 'Prazno'
+ELSE z.OpisZahteveNarocnik END),
+'html','0.0.0.0',z.DatumZahteve,z.DatumZahteve 
+FROM dbo.RFC_Zahteve z
+RIGHT JOIN dbo.RFC_Osebe o ON z.ID_OsebaNarocnik=o.ID_Oseba
+LEFT JOIN OPENQUERY(OSTICKET_P,'SELECT * FROM ost_ticket_thread') tt ON tt.ticket_id = z.ID_Zahteva
+WHERE z.ID_OsebaNarocnik = o.ID_Oseba AND tt.ticket_id IS NULL
+
+--Nalaganje oseb(dela)
+INSERT INTO OPENQUERY(OSTICKET_P,'SELECT id,org_id,default_email_id,status,name,created,updated FROM ost_user')
+SELECT o.ID_Oseba,o.ID_PoslovniPartner,o.ID_Oseba,0,CONCAT(o.Ime,' ',o.Priimek),(CASE WHEN o.vpis_datetime IS NULL THEN GETDATE() ELSE o.vpis_datetime END),GETDATE()
+FROM dbo.RFC_Osebe o
+LEFT JOIN OPENQUERY(OSTICKET_P,'SELECT id FROM ost_user') u ON u.id = o.ID_Oseba
+WHERE u.id IS NULL AND o.Status='A'
+
+INSERT INTO OPENQUERY(OSTICKET_P, 'SELECT id,user_id,address FROM ost_user_email')
+SELECT o.ID_Oseba,o.ID_Oseba,o.Mail
+FROM dbo.RFC_Osebe o
+LEFT JOIN OPENQUERY(OSTICKET_P, 'SELECT * FROM ost_user_email') u ON u.id = o.ID_Oseba
+inner join (
+    SELECT Mail, COUNT(*) AS dupeCount
+    FROM dbo.RFC_Osebe
+    GROUP BY Mail
+    HAVING COUNT(*) = 1
+) oc on o.Mail = oc.Mail
+WHERE u.id IS NULL AND o.Status = 'A'
+
+--Nalaganje poslovnih partnerjev(dela)
+INSERT INTO OPENQUERY(OSTICKET_P, 'SELECT id,name,status,created,updated FROM ost_organization')
+SELECT pp.POSLOVNI_PARTNER,pp.NAZIV_PP,0,GETDATE(),GETDATE()
+FROM dbo.Poslovni_partnerji pp
+LEFT JOIN OPENQUERY(OSTICKET_P, 'SELECT id FROM ost_organization') o ON o.id = pp.POSLOVNI_PARTNER
+WHERE o.id IS NULL
+
+--Nalaganje zaposlenih(dela)
+INSERT INTO OPENQUERY(OSTICKET_P,'select staff_id, group_id, dept_id, timezone_id, username, firstname, lastname, passwd, backend, email, phone, phone_ext, mobile, signature, notes, isactive, isadmin, isvisible,onvacation,assigned_only,show_assigned_tickets,isAtWork,daylight_saving,change_passwd,max_page_size,auto_refresh_rate,default_signature_type, default_paper_size,created,lastlogin,passwdreset,updated from ost_staff')
+SELECT ID_Oseba, group_id = case when polozaj = '' THEN 1  else 4 end,
+             dept_id = 16, timezone_id = 15, replace(mail,'@3tav.si',''), Ime, Priimek, '', backend = null, 
+			 Mail, Telefon, TelefonInterni, Gsm=CASE WHEN Gsm IS NULL THEN '' ELSE Gsm end, 
+			 signature = '', notes = null, isactive = 1, isadmin = case when ID_Oseba in (22,8,6,11615 ) THEN 1 else 0 end,
+             isvisible = 1,onvacation = 0,assigned_only = 0,show_assigned_tickets = 0,isAtWork=0,daylight_saving = 1,change_passwd = 0,
+			 max_page_size = 25, auto_refresh_rate = 0, default_signature_type = 'none',
+			 default_paper_size = 'A4', created = getdate(), lastlogin = null, passwdreset = null, updated = GETDATE()
+FROM dbo.RFC_Osebe o
+LEFT JOIN OPENQUERY(OSTICKET_P,'SELECT staff_id FROM ost_staff') s ON s.staff_id = o.ID_Oseba
+where status = 'A' AND ID_PoslovniPartner = 3786 AND s.staff_id IS NULL

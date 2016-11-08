@@ -14,12 +14,12 @@ $userid=Format::input($_POST['userid']);
     <input type="hidden" name="do" value="sendmail"/>
     <strong><?php echo Format::htmlchars($banner); ?></strong>
     <br>
-    <div class="form-group">
+    <div>
         <label for="username"><?php echo __('Username'); ?>:</label>
-        <input id="username" type="text" name="userid" class="form-control" value="<?php echo $userid; ?>">
+        <input id="username" type="text" name="userid" size="30" value="<?php echo $userid; ?>">
     </div>
     <p>
-        <input class="btn btn-success btn-block" type="submit" value="<?php echo __('Send Email'); ?>">
+        <input class="btn" type="submit" value="<?php echo __('Send Email'); ?>">
     </p>
     </div>
 </form>

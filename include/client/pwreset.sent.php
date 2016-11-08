@@ -4,7 +4,7 @@
 ?>
 
 <form action="pwreset.php" method="post" id="clientLogin">
-<div class="alert alert-info"><?php echo __(
+<div style="width:50%;display:inline-block"><?php echo __(
     'We have sent you a reset email to the email address you have on file for your account. If you do not receive the email or cannot reset your password, please submit a ticket to have your account unlocked.'
 ); ?>
     </div>

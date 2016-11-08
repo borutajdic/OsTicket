@@ -14,12 +14,12 @@ $userid=Format::input($_POST['userid']);
     <input type="hidden" name="token" value="<?php echo Format::htmlchars($_REQUEST['token']); ?>"/>
     <strong><?php echo Format::htmlchars($banner); ?></strong>
     <br>
-    <div class="form-group">
+    <div>
         <label for="username"><?php echo __('Username'); ?>:</label>
-        <input id="username" type="text" name="userid" class="form-control" value="<?php echo $userid; ?>">
+        <input id="username" type="text" name="userid" size="30" value="<?php echo $userid; ?>">
     </div>
     <p>
-        <input class="btn btn-success btn-block" type="submit" value="Login">
+        <input class="btn" type="submit" value="Login">
     </p>
     </div>
 </form>

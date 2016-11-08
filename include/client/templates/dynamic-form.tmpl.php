@@ -1,57 +1,54 @@
-<h3><?php echo Format::htmlchars($form->getTitle()); ?></h3>
-<em><?php echo Format::htmlchars($form->getInstructions()); ?></em>
-
 <?php
-// Form fields, each with corresponding errors follows. Fields marked
-// 'private' are not included in the output for clients
-global $thisclient;
-foreach ($form->getFields() as $field) {
-    if (!$field->isVisibleToUsers())
-        continue;
+    // Form headline and deck with a horizontal divider above and an extra
+    // space below.
+    // XXX: Would be nice to handle the decoration with a CSS class
     ?>
-    <div class="row">
-	    <div class="col-xs-12">
-		    <div class="form-group">
-		        <?php if ($field->isBlockLevel()) { ?>
-		            <label for="<?php echo $field->getFormName(); ?>" class="<?php
-		                if ($field->get('required')) echo 'required'; ?>">
-		            <?php echo Format::htmlchars($field->get('label')); ?>
-		            <?php if ($field->get('required')) { ?>
-			            <font class="error">*</font>
-			        <?php
-			        }?>
-		            </label>
-		        <?php
-		        }
-		        else { ?>
-		            <label for="<?php echo $field->getFormName(); ?>" class="<?php
-		                if ($field->get('required')) echo 'required'; ?>">
-		            <?php echo Format::htmlchars($field->get('label')); ?>
-		            <?php if ($field->get('required')) { ?>
-			            <font class="error">*</font>
-			        <?php
-			        }
-			        ?>
-		            </label>
-		        <?php
-		        }
-		        $field->render('client');
-		        if ($field->get('hint') && !$field->isBlockLevel()) { ?>
-		            <br /><em style="color:gray;display:inline-block"><?php
-		                echo Format::htmlchars($field->get('hint')); ?></em>
-		        <?php
-		        }
-		        foreach ($field->errors() as $e) { ?>
-		            <br />
-		            <font class="error"><?php echo $e; ?></font>
-		        <?php }
-		        $field->renderExtras('client');
-		        ?>
-		    </div>
-		    <!-- /.form-group -->
-	    </div>
-	    <!-- /.col -->
+    <tr><td colspan="2"><hr />
+    <div class="form-header" style="margin-bottom:0.5em">
+    <h3><?php echo Format::htmlchars($form->getTitle()); ?></h3>
+    <div><?php echo Format::display($form->getInstructions()); ?></div>
     </div>
-	<!-- /.row -->
-    
-<?php } ?>
+    </td></tr>
+    <?php
+    // Form fields, each with corresponding errors follows. Fields marked
+    // 'private' are not included in the output for clients
+    global $thisclient;
+    foreach ($form->getFields() as $field) {
+        if (isset($options['mode']) && $options['mode'] == 'create') {
+            if (!$field->isVisibleToUsers() && !$field->isRequiredForUsers())
+                continue;
+        }
+        elseif (!$field->isVisibleToUsers() && !$field->isEditableToUsers()) {
+            continue;
+        }
+        ?>
+        <tr>
+            <td colspan="2" style="padding-top:10px;">
+            <?php if (!$field->isBlockLevel()) { ?>
+                <label for="<?php echo $field->getFormName(); ?>"><span class="<?php
+                    if ($field->isRequiredForUsers()) echo 'required'; ?>">
+                <?php echo Format::htmlchars($field->getLocal('label')); ?>
+            <?php if ($field->isRequiredForUsers()) { ?>
+                <span class="error">*</span>
+            <?php }
+            ?></span><?php
+                if ($field->get('hint')) { ?>
+                    <br /><em style="color:gray;display:inline-block"><?php
+                        echo Format::viewableImages($field->getLocal('hint')); ?></em>
+                <?php
+                } ?>
+            <br/>
+            <?php
+            }
+            $field->render(array('client'=>true));
+            ?></label><?php
+            foreach ($field->errors() as $e) { ?>
+                <div class="error"><?php echo $e; ?></div>
+            <?php }
+            $field->renderExtras(array('client'=>true));
+            ?>
+            </td>
+        </tr>
+        <?php
+    }
+?>

@@ -4,40 +4,62 @@ if(!defined('OSTCLIENTINC') || !$faq  || !$faq->isPublished()) die('Access Denie
 $category=$faq->getCategory();
 
 ?>
+<div class="row">
+<div class="span8">
 
-<div class="row"> 
-	<div class="col-xs-12"> 
-    	
-    	<div class="page-title">  
-			<h1><?php echo __('Frequently Asked Questions');?></h1>
-		</div>
-
-		<ol class="breadcrumb bordered">
-		  <li><a href="index.php"><?php echo __('All Categories');?></a></li>
-		  <li><a href="faq.php?cid=<?php echo $category->getId(); ?>"><?php echo $category->getName(); ?></a></li>
-		</ol>
- 
-		<div class="faq-title text-center">
-			<h2><?php echo $faq->getQuestion() ?></h2>
-		</div>
-		
-		<div class="well well-lg">
-			<?php echo Format::safe_html($faq->getAnswerWithImages()); ?>
-		</div>
-		<hr>
-
-		<?php
-		if($faq->getNumAttachments()) { ?>
-			<p><b><?php echo __('Attachments');?>:</b> <?php echo $faq->getAttachmentsLinks(); ?></p>
-			<hr>
-		<?php
-		} ?>
-
-		<p><b><?php echo __('Help Topics');?>:</b> <?php echo ($topics=$faq->getHelpTopics())?implode(', ',$topics):' '; ?></p>
-
-		<hr>
-		<p><small><?php echo __('Last updated').' '.Format::db_daydatetime($category->getUpdateDate()); ?></small></p>
-	</div>
-	<!-- /.col -->
+<h1><?php echo __('Frequently Asked Questions');?></h1>
+<div id="breadcrumbs">
+    <a href="index.php"><?php echo __('All Categories');?></a>
+    &raquo; <a href="faq.php?cid=<?php echo $category->getId(); ?>"><?php echo $category->getName(); ?></a>
 </div>
-<!-- /.row -->
+
+<div class="faq-content">
+<div class="article-title flush-left">
+<?php echo $faq->getLocalQuestion() ?>
+</div>
+<div class="faded"><?php echo sprintf(__('Last Updated %s'),
+    Format::relativeTime(Misc::db2gmtime($category->getUpdateDate()))); ?></div>
+<br/>
+<div class="thread-body bleed">
+<?php echo $faq->getLocalAnswerWithImages(); ?>
+</div>
+</div>
+</div>
+
+<div class="span4 pull-right">
+<div class="sidebar">
+<div class="searchbar">
+    <form method="get" action="faq.php">
+    <input type="hidden" name="a" value="search"/>
+    <input type="text" name="q" class="search" placeholder="<?php
+        echo __('Search our knowledge base'); ?>"/>
+    <input type="submit" style="display:none" value="search"/>
+    </form>
+</div>
+<div class="content"><?php
+    if ($attachments = $faq->getLocalAttachments()->all()) { ?>
+<section>
+    <strong><?php echo __('Attachments');?>:</strong>
+<?php foreach ($attachments as $att) { ?>
+    <div>
+    <a href="<?php echo $att->file->getDownloadUrl(); ?>" class="no-pjax">
+        <i class="icon-file"></i>
+        <?php echo Format::htmlchars($att->getFilename()); ?>
+    </a>
+    </div>
+<?php } ?>
+</section>
+<?php }
+if ($faq->getHelpTopics()->count()) { ?>
+<section>
+    <strong><?php echo __('Help Topics'); ?></strong>
+<?php foreach ($faq->getHelpTopics() as $T) { ?>
+    <div><?php echo $T->topic->getFullName(); ?></div>
+<?php } ?>
+</section>
+<?php }
+?></div>
+</div>
+</div>
+
+</div>

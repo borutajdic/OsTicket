@@ -9,16 +9,13 @@ if (($lang = Internationalization::getCurrentLanguage())
 <head>
     <title><?php echo $wizard['title']; ?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" href="css/wizard.css?8b927a0"/>
-    <link type="text/css" rel="stylesheet" href="<?php echo ROOT_PATH; ?>css/flags.css?8b927a0"/>
-    <script type="text/javascript" src="../js/jquery-1.8.3.min.js?8b927a0"></script>
-    <script type="text/javascript" src="js/tips.js?8b927a0"></script>
-    <script type="text/javascript" src="js/setup.js?8b927a0"></script>
+    <link rel="stylesheet" href="css/wizard.css?901e5ea"/>
+    <link type="text/css" rel="stylesheet" href="<?php echo ROOT_PATH; ?>css/flags.css?901e5ea"/>
 </head>
 <body>
     <div id="wizard">
         <div id="header">
-            <img id="logo" src="./images/<?php echo $wizard['logo']?$wizard['logo']:'logo.png'; ?>" width="280" height="72" alt="osTicket">
+            <img id="logo" src="./images/<?php echo $wizard['logo'] ?: 'logo.png'; ?>" alt="osTicket">
             <div class="info"><?php echo $wizard['tagline']; ?></div>
             <br/>
             <ul class="links">
